@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 
 const getPokemon = () => {
     const url = `https://tyradex.tech/api/v1/gen/1`
-    fetch(url)
+    return fetch(url)
     .then(res => res.json())
     // data contient un tableau d'objet "pokémon"
     .then(data => {
@@ -33,13 +33,30 @@ const getPokemon = () => {
 }
 
 export default {
-    home: (req, res) => {
-        const test = getPokemon()
-        console.log(test)
+    home: async (req, res) => {
+        const pokemon = await getPokemon()
+        // console.log(pokemon[1].types)
         res.render("home", {});
     },
-    category: (req, res) => {
-        res.render('home', {})
+    category: async (req, res) => {
+        const categoryType = req.params.category
+        const pokemons = await getPokemon()
+console.log(pokemons[1].types)
+/**
+ * 
+ * @param {array} allPokemons liste de pokémon où chercher
+ * @param {string} searchedType type recherché
+ */
+const findPokemonByType = (allPokemons, searchedType) => {
+    let pokemonList = []
+    for (let i = 0; i < 2; i++) {
+        pokemonList.push(allPokemons.filter(pokemon => pokemon.types[i].name === searchedType));
     }
+    // La tu save en localStorage si tu veux ou tu return le pokemonList ou les deux ^^
+}
 
+
+    console.log(findPokemonByType(pokemons, 'Plante'))
+        res.render('category')
+    }
 }
