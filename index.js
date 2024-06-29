@@ -16,7 +16,6 @@ app.use(router);
 app.use((req, res) => {
   // res.status(404).send(404, `Page non trouvée`);
   res.status(404);
-  res.render("error404");
 });
 
 app.listen(port, () => {
