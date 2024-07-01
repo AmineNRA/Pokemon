@@ -1,5 +1,8 @@
 import fetch from "node-fetch";
 
+const listTypes = [];
+
+
 
 const getPokemon = () => {
     const url = `https://tyradex.tech/api/v1/gen/1`
@@ -34,13 +37,11 @@ const getPokemon = () => {
 
 export default {
     home: async (req, res) => {
-        const pokemon = await getPokemon()
-        console.log(pokemon[2])
+        console.log(res.locals.pokemon)
         res.render("home", {});
     },
     category: async (req, res) => {
         const pokemon = await getPokemon();
-        const listTypes = [];
         // Pour chaque element de pokemon
         pokemon.forEach((e) => {
             // si la longueur du tableau types est égal à 2
@@ -63,7 +64,29 @@ export default {
             }
         })
         res.render("category", {
-            listTypes : listTypes,
+            listTypes: listTypes,
+        })
+    },
+    type: async (req, res) => {
+        const pokemon = await getPokemon()
+        const url = req.params.type;
+        const typePokemon = [];
+        pokemon.forEach((e) => {
+            if (e.types.length >= 2)
+                for (let i = 0; i < e.types.length; i++) {
+                    if (e.types[i].name === url) {
+                        typePokemon.push(e)
+                    }
+                }
+            else {
+                if (e.types[0].name == url) {
+                    typePokemon.push(e)
+                }
+            }
+        })
+        console.log(typePokemon[1])
+        res.render('pokedex', {
+            typePokemon,
         })
     }
 }

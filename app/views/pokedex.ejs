@@ -1,6 +1,13 @@
-<%- include('./partials/header.ejs');
-<main>
+<%- include('./partials/header.ejs') %>;
+    <main>
 
+        <ul>
+            <% for(const pokemon of typePokemon) { %>
+                <li>
+                    <%= pokemon.name.fr %>
+                </li>
+                <% } %>
+        </ul>
 
-</main>
-<%- include('./partials/footer.ejs');
+    </main>
+    <%- include('./partials/footer.ejs') %>;
